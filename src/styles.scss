@@ -1,1 +1,171 @@
-/* You can add global styles to this file, and also import other style files */
+/* Angular Material - define a theme (Material 3 by default with ng add) */
+@use "@angular/material" as mat;
+
+
+/* Global font */
+html, body, app-root { height: 100%; }
+body {
+  margin: 0;
+  font-family: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans Hebrew", sans-serif;
+}
+
+
+// Optional: keep default indigo/pink. You can customize later.
+// mat.define-light-theme(...) if you want custom palettes.
+
+@include mat.core();
+
+/* AG Grid CSS - required for grid to render properly */
+@import "../node_modules/ag-grid-community/styles/ag-grid.css";
+@import "../node_modules/ag-grid-community/styles/ag-theme-quartz.css";
+
+/* AG Grid theming customizations */
+.ag-theme-quartz {
+  // Header styling - modern gradient
+  .ag-header {
+    background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+    color: white;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #0d47a1;
+  }
+
+  .ag-header-cell {
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  // Row styling with better colors
+  .ag-row {
+    border-bottom: 1px solid #e8eef7;
+    transition: background-color 0.2s ease;
+    font-size: 13px;
+  }
+
+  .ag-row:hover {
+    background-color: #f0f4ff !important;
+    box-shadow: inset 0 0 0 1px #e3f2fd;
+  }
+
+  .ag-row-even {
+    background-color: #ffffff;
+  }
+
+  .ag-row-odd {
+    background-color: #f8fafb;
+  }
+
+  // Cell styling
+  .ag-cell {
+    padding: 12px 16px;
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+    color: #424242;
+  }
+
+  // Selected row - Material blue accent
+  .ag-row-selected {
+    background: linear-gradient(90deg, #e3f2fd 0%, #f5f5f5 100%) !important;
+    border-left: 4px solid #1976d2;
+
+    .ag-cell {
+      background: transparent;
+      color: #1565c0;
+      font-weight: 500;
+    }
+  }
+
+  // Focus styling
+  .ag-cell:focus-within {
+    outline: none;
+  }
+
+  .ag-cell-focus {
+    outline: 2px solid #1976d2;
+    outline-offset: -1px;
+  }
+
+  // Pinned column styling
+  .ag-pinned-right-cols-container {
+    border-left: 2px solid #1976d2;
+  }
+
+  // Scrollbar styling
+  .ag-body-viewport {
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f5f5f5;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #bdbdbd;
+      border-radius: 4px;
+
+      &:hover {
+        background: #9e9e9e;
+      }
+    }
+  }
+
+  // Cell renderer buttons
+  button {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    color: #424242;
+
+    &:hover {
+      background: #f5f5f5;
+      border-color: #1976d2;
+      color: #1976d2;
+    }
+
+    &:active {
+      background: #e3f2fd;
+    }
+  }
+}
+
+/* Simple utility spacing */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+  padding: 0 60px;
+}
+
+.toolbar-fill {
+  width: 100%;
+}
+
+.grid-wrap {
+  flex: 1 1 auto;         /* take remaining height */
+  min-height: 0;           /* important for nested flex scrolling */
+  overflow: hidden;        /* grid will manage its own scrollbars */
+}
+
+/* AG Grid full-height within container */
+.ag-theme-quartz {
+  height: 100%;
+  width: 100%;
+  direction: rtl;          /* ensure grid itself is RTL-aware */
+}
