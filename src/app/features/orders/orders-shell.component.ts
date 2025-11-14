@@ -25,7 +25,7 @@ type OrderItem = { id: number; customer: string; orderNo: string; city: string; 
 
       <div style="flex: 1 1 auto; min-height: 0; display: flex; position: relative; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
         <ag-grid-angular
-          class="ag-theme-quartz"
+          class="ag-theme-alpine"
           style="width: 100%; height: 100%;"
           [rowData]="flatRows()"
           [columnDefs]="columnDefs"
