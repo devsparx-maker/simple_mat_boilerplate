@@ -1,1 +1,7 @@
-<router-outlet />
+<div style="display: flex; flex-direction: column; height: 100vh;">
+    <app-toolbar></app-toolbar>
+
+    <div style="flex: 1 1 auto; min-height: 0; overflow: auto;">
+        <router-outlet />
+    </div>
+</div>
