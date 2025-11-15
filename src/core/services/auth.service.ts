@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Inject, Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable, of } from 'rxjs';
+import { BehaviorSubject, delay, map, Observable, of } from 'rxjs';
 import { User } from '../../types/user';
 
 @Injectable({
@@ -14,24 +14,54 @@ export class AuthService {
 
   private baseUrl = 'https://api.example.com/'; // Replace with your API base URL
 
+  // -- STUB fake user insrtead of real login for demo purposes --
+  private fakeUser: User = {
+    id: 1,
+    username: 'demoUser',
+    knownAs: 'Demo',
+    token: 'fake-jwt-token',
+  };
 
-  init() : Observable<User | null> {
+
+  init(autoLogin: boolean = true) : Observable<User | null> {
+    debugger;
     const stored = localStorage.getItem('user');
-    if (!stored) {
+    
+    if (stored) {
+      try {
+        const user: User = JSON.parse(stored);
+        this.currentUserSource.next(user);
+        return of(user);
+      } catch (e) {
+        console.error('Error parsing stored user', e);
+        localStorage.removeItem('user');
+        this.currentUserSource.next(null);
+      }
+    }
+
+    if(!autoLogin) {
       this.currentUserSource.next(null);
       return of(null);
     }
 
-    const user: User = JSON.parse(stored);
-    this.currentUserSource.next(user);
+    return this.login({username: 'demo', password: 'password'});
+  }
 
-    return this.httpClient.get<User>(`${this.baseUrl}account/me`).pipe(
-      map(freshUser => {
-        const mergedUser = { ...user, ...freshUser };
-        this.setCurrentUser(mergedUser);
-        return mergedUser;
+
+  login(credentials: {username: string, password: string}) : Observable<User> {
+    const {username, password} = credentials;
+
+    // simulate API call
+    return of(null).pipe(
+      delay(1000),
+      map(() => {
+        if (username === 'demo' && password === 'password') {
+          this.setCurrentUser(this.fakeUser);
+          return this.fakeUser;
+        } 
+        throw new Error('Invalid username or password');
       })
-    );  
+    );
   }
 
   setCurrentUser(user: User | null) : void {

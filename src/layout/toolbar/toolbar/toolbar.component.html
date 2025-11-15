@@ -1,9 +1,12 @@
     <mat-toolbar color="primary" class="toolbar-fill">
         <!-- Left (since RTL, this visually appears on the left) -->
-        <div style="margin-inline-start:8px; display:flex; align-items:center; gap:8px;">
-            <mat-icon>account_circle</mat-icon>
-            <span>{{ userName }}</span>
-        </div>
+        
+        <ng-container *ngIf="user$ | async as user">
+            <div style="margin-inline-start:8px; display:flex; align-items:center; gap:8px;">
+                <mat-icon>account_circle</mat-icon>
+                <span>{{ user.knownAs || user.username }} שלום רב </span>
+            </div>
+        </ng-container>
 
         <span class="spacer" style="flex:1 1 auto;"></span>
 
